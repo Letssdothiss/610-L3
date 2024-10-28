@@ -1,6 +1,7 @@
 {
   "java.project.referencedLibraries": [
     "lib/**/*.jar",
-    "/c/users/e-mil/onedrive/skrivbord/JavaFX/javafx-sdk-23.0.1/lib/*.jar"
+    "${workspaceFolder}/lib/javafx-sdk-23.0.1/lib/*.jar",
+    "lib/StringCryption.jar"
   ]
 }

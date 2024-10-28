@@ -1,2 +1,14 @@
 # Local notes to self, not to be sharde to repo.
 LocalNotes.md
+
+# JavaFX SDK
+lib/javafx-sdk*/
+
+# bin
+bin/
+
+# class files
+*.class
+
+# VSCode
+.vscode/

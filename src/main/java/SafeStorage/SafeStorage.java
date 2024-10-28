@@ -7,6 +7,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import main.java.stringCryption.StringCryption;
+import SafeStorage.Account.Account;
 
 public class SafeStorage extends Application {
 
@@ -36,6 +38,15 @@ public class SafeStorage extends Application {
   }
 
   public static void main(String[] args) {
+    StringCryption stringCryption = new StringCryption();
+    String hardcodedString = "Hello, World!";
+    String encryptedString = stringCryption.encryptAtChosenLevel(hardcodedString, 5);
+    String decryptedString = stringCryption.decryptAtChosenLevel(encryptedString, 5);
+
+    System.out.println("Original: " + hardcodedString);
+    System.out.println("Encrypted: " + encryptedString);
+    System.out.println("Decrypted: " + decryptedString);
+
     launch(args);
   }
 }

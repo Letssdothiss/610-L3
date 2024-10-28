@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.charset.StandardCharsets;
+import main.java.stringCryption.StringCryption;
 
 public class Account {
 
   private String username;
   private String password;
-  private String levelOfEncryption;
+  private int levelOfEncryption = 5;
+
+  //private StringCryption encryptionModule = new StringCryption();
 
   public Account(String username, String password) {
     setUsername(username);
@@ -25,21 +28,35 @@ public class Account {
     this.password = password;
   }
 
-  private String encryptUsername(String username) {}
+  private String encryptUsername(String username, int levelOfEncryption) {
+    return null;
+  }
 
-  private String encryptPassword(String password) {}
+  private String encryptPassword(String password) {
+    return null;
+  }
 
   public void saveNewAccount() {}
 
-  private String decryptUsername(String encryptedUsername) {}
+  private String decryptUsername(String encryptedUsername) {
+    return null;
+  }
 
-  private String decryptPassword(String encryptedPassword) {}
+  private String decryptPassword(String encryptedPassword) {
+    return null;
+  }
 
-  public Account loadAccount() {}
+  public Account loadAccount() {
+    return null;
+  }
 
-  private boolean verifyAccount() {}
+  private boolean verifyAccount() {
+    return false;
+  }
 
-  private boolean accountExists() {}
+  private boolean accountExists() {
+    return false;
+  }
 
   private void userNameException(String username) {}
 
