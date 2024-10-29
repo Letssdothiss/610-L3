@@ -1,7 +1,26 @@
 #!/bin/bash
 
-# Compile
-javac -d bin -cp "lib/*;src/main/java" src/main/java/SafeStorage/*.java src/main/java/SafeStorage/Account/*.java
+# Create bin directory if it doesn't exist
+rm -rf bin
+mkdir -p bin
 
-# Run
-java --module-path "lib/javafx-sdk-23.0.1/lib" --add-modules javafx.controls,javafx.fxml -cp "bin;lib/*" SafeStorage.SafeStorage
+# Extract StringCryption classes to bin directory
+cd bin && jar xf ../lib/StringCryption.jar && cd ..
+
+# Convert Windows paths to Unix style
+JAVAFX_PATH=$(echo "lib/javafx-sdk-23.0.1/lib" | sed 's/\\/\//g')
+BIN_PATH=$(echo "bin" | sed 's/\\/\//g')
+SRC_PATH=$(echo "src/main/java" | sed 's/\\/\//g')
+
+# Compile with JavaFX modules and StringCryption
+javac --module-path "$JAVAFX_PATH" \
+      --add-modules javafx.controls,javafx.fxml \
+      -d "$BIN_PATH" \
+      -cp "$BIN_PATH" \
+      "$SRC_PATH/SafeStorage/"*.java "$SRC_PATH/SafeStorage/Account/"*.java
+
+# Run with JavaFX modules and StringCryption
+java --module-path "$JAVAFX_PATH" \
+     --add-modules javafx.controls,javafx.fxml \
+     -cp "$BIN_PATH" \
+     SafeStorage.SafeStorage
