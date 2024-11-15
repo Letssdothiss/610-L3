@@ -1,5 +1,5 @@
 package SafeStorage.controller;
 
-public class MemoController {
+public class EncryptionController {
     
 }

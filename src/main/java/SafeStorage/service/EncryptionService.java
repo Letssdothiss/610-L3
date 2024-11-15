@@ -1,5 +1,5 @@
 package SafeStorage.service;
 
-public class PasswordService {
+public class EncryptionService {
     
 }

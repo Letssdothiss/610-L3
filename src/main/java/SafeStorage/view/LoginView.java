@@ -8,12 +8,12 @@ import javafx.geometry.Pos;
 
 public class LoginView {
 
-  private Scene scene;
-  private Button loginButton;
-  private TextField usernameField;
-  private PasswordField passwordField;
+  private final Scene scene;
+  private final Button loginButton;
+  private final TextField usernameField;
+  private final PasswordField passwordField;
 
-  public void loginView() {
+  public LoginView() {
     VBox layout = new VBox(10);
     layout.setPadding(new Insets(20));
     layout.setAlignment(Pos.CENTER);
@@ -42,7 +42,7 @@ public class LoginView {
   }
 
   // Getters for controller to access UI elements.
-  public Scene GetScene() {
+  public Scene getScene() {
     return scene;
   }
 
