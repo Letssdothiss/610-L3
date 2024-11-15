@@ -3,28 +3,37 @@ package SafeStorage;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import SafeStorage.view.LoginView;
+import SafeStorage.controller.LoginController;
+import SafeStorage.service.AuthenticationService;
+import SafeStorage.util.EncryptionUtil;
 
 public class SafeStorage extends Application {
     private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        primaryStage.setTitle("Safe Storage");
+      this.primaryStage = primaryStage;
+      primaryStage.setTitle("Safe Storage");
 
-        LoginView loginScreen = new LoginView();
-        loginScreen.setOnLoginSuccess(() -> showMainMenu());
+      // Initialize dependencies.
+      EncryptionUtil encryptionUtil = new EncryptionUtil();
+      AuthenticationService authService = new AuthenticationService(encryptionUtil);
 
-        primaryStage.setScene(loginScreen.getScene());
-        primaryStage.show();
+      // Set up MVC components.
+      LoginView loginView = new LoginView();
+      LoginController loginController = new LoginController(loginView, authService);
+      loginController.setOnLoginSuccess(() -> showMainMenu());
+
+      primaryStage.setScene(loginView.getScene());
+      primaryStage.show();
     }
 
     private void showMainMenu() {
-        // TODO: Implement main menu transition
-        System.out.println("Login successful! Main menu coming soon...");
+      // TODO: Initialize main menu components.
+      System.out.println("Login successful! Main menu coming soon...");
     }
 
     public static void main(String[] args) {
-        launch(args);
+      launch(args);
     }
 }
