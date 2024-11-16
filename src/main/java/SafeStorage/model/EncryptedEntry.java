@@ -6,11 +6,13 @@ public class EncryptedEntry {
 
   private final String title;
   private final String encryptedContent;
+  private final int encryptionLevel;
   private final LocalDateTime timestamp;
 
-  public EncryptedEntry(String title, String encryptedContent) {
+  public EncryptedEntry(String title, String encryptedContent, int encryptionLevel) {
     this.title = title;
     this.encryptedContent = encryptedContent;
+    this.encryptionLevel = encryptionLevel;
     this.timestamp = LocalDateTime.now();
   }
 
@@ -20,6 +22,10 @@ public class EncryptedEntry {
 
   public String getEncryptedContent() { 
     return encryptedContent; 
+  }
+
+  public int getEncryptionLevel() { 
+    return encryptionLevel; 
   }
 
   public LocalDateTime getTimestamp() { 
