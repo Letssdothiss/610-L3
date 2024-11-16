@@ -24,9 +24,9 @@ public class EncryptionUtilTest {
     String decrypted = encryptionUtil.decrypt(encrypted, VALID_LEVEL);
         
     assertAll(
-      // Encrypted content should be different from original
+      // Encrypted content should be different from original.
       () -> assertNotEquals(TEST_CONTENT, encrypted),
-      // Decrypted content should match original
+      // Decrypted content should match original.
       () -> assertEquals(TEST_CONTENT, decrypted)
     );
   }
@@ -37,11 +37,11 @@ public class EncryptionUtilTest {
     String encrypted = encryptionUtil.encrypt(TEST_CONTENT, VALID_LEVEL);
         
     assertAll(
-      // Correct level should work
+      // Correct level should work.
       () -> assertEquals(TEST_CONTENT, 
         encryptionUtil.decrypt(encrypted, VALID_LEVEL)),
             
-      // Wrong level should not work
+      // Wrong level should not work.
       () -> assertNotEquals(TEST_CONTENT, 
         encryptionUtil.decrypt(encrypted, VALID_LEVEL + 1))
     );
