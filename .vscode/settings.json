@@ -3,5 +3,14 @@
     "lib/**/*.jar",
     "${workspaceFolder}/lib/javafx-sdk-23.0.1/lib/*.jar",
     "lib/StringCryption.jar"
-  ]
+  ],
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-21",
+      "path": "C:\\Program Files\\Java\\jdk-21",
+      "default": true
+    }
+  ],
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-21"
 }
