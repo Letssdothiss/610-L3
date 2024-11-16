@@ -2,17 +2,23 @@ package SafeStorage.view;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.control.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.collections.FXCollections;
 
 public class MainView {
 
   private final Scene scene;
-    private final TextField titleField;
-    private final TextArea contentArea;
-    private final Button encryptButton;
-    private final ListView<String> entriesList;
+  private final TextField titleField;
+  private final TextArea contentArea;
+  private final TextArea decryptedContentArea;
+  private final ComboBox<Integer> encryptionLevelBox;
+  private final ComboBox<Integer> decryptionLevelBox;
+  private final Button encryptButton;
+  private final Button decryptButton;
+  private final ListView<String> entriesList;
   
   public MainView() {
     VBox layout = new VBox(20);
@@ -34,14 +40,38 @@ public class MainView {
     contentArea.setPrefRowCount(5);
     contentArea.setMaxWidth(300);
 
-    // Encrypt button
+    // Encryption level selector
+    encryptionLevelBox = new ComboBox<>(FXCollections.observableArrayList(1, 2, 3, 4, 5));
+    encryptionLevelBox.setPromptText("Select encryption level");
+    encryptionLevelBox.setValue(1); // Default value
+
+    // Encrypt button with level selection
+    HBox encryptionBox = new HBox(10);
+    encryptionBox.setAlignment(Pos.CENTER);
     encryptButton = new Button("Encrypt");
-    encryptButton.setMaxWidth(300);
+    encryptionBox.getChildren().addAll(encryptionLevelBox, encryptButton);
 
     // List of encrypted entries
     entriesList = new ListView<>();
     entriesList.setPrefHeight(200);
     entriesList.setMaxWidth(300);
+
+    // Decryption section
+    decryptionLevelBox = new ComboBox<>(FXCollections.observableArrayList(1, 2, 3, 4, 5));
+    decryptionLevelBox.setPromptText("Select decryption level");
+    decryptionLevelBox.setValue(1); // Default value
+
+    HBox decryptionBox = new HBox(10);
+    decryptionBox.setAlignment(Pos.CENTER);
+    decryptButton = new Button("Decrypt Selected");
+    decryptionBox.getChildren().addAll(decryptionLevelBox, decryptButton);
+
+    // Decrypted content display
+    decryptedContentArea = new TextArea();
+    decryptedContentArea.setPromptText("Decrypted content will appear here");
+    decryptedContentArea.setPrefRowCount(5);
+    decryptedContentArea.setMaxWidth(300);
+    decryptedContentArea.setEditable(false);
 
     layout.getChildren().addAll(
       titleLabel,
@@ -49,12 +79,15 @@ public class MainView {
       titleField,
       new Label("Content:"),
       contentArea,
-      encryptButton,
+      encryptionBox,
       new Label("Encrypted Entries:"),
-      entriesList
+      entriesList,
+      decryptionBox,
+      new Label("Decrypted Content:"),
+      decryptedContentArea
     );
 
-    scene = new Scene(layout, 400, 600);
+    scene = new Scene(layout, 400, 800);
   }
 
   public Scene getScene() { 
@@ -69,8 +102,24 @@ public class MainView {
     return contentArea; 
   }
 
+  public TextArea getDecryptedContentArea() { 
+    return decryptedContentArea; 
+  }
+
+  public ComboBox<Integer> getEncryptionLevelBox() { 
+    return encryptionLevelBox; 
+  }
+
+  public ComboBox<Integer> getDecryptionLevelBox() { 
+    return decryptionLevelBox; 
+  }
+
   public Button getEncryptButton() { 
     return encryptButton; 
+  }
+
+  public Button getDecryptButton() { 
+    return decryptButton; 
   }
 
   public ListView<String> getEntriesList() { 

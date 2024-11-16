@@ -39,7 +39,6 @@ public class SafeStorage extends Application {
     private void showMainMenu() {
       MainView mainView = new MainView();
 
-      //TODO: Implement encryptionController
       EncryptionController encryptionController = new EncryptionController(mainView, encryptionService);
 
       primaryStage.setScene(mainView.getScene());

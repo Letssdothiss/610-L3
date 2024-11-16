@@ -20,24 +20,41 @@ public class EncryptionController {
 
   private void initializeEventHandlers() {
     view.getEncryptButton().setOnAction(e -> handleEncryption());
+    view.getDecryptButton().setOnAction(e -> handleDecryption());
+    view.getEntriesList().getSelectionModel().selectedItemProperty()
+      .addListener((obs, oldVal, newVal) -> clearDecryptedContent());
   }
 
   private void handleEncryption() {
     String title = view.getTitleField().getText();
     String content = view.getContentArea().getText();
-
-    if (title.isEmpty() || content.isEmpty()) {
-        showError("Please enter both title and content");
-        return;
-    }
+    Integer encryptionLevel = view.getEncryptionLevelBox().getValue();
 
     try {
-      EncryptedEntry entry = encryptionService.encryptAndSave(title, content);
+      EncryptedEntry entry = encryptionService.encryptAndSave(title, content, encryptionLevel);
       updateEntriesList();
       clearInputs();
     } catch (Exception e) {
       showError("Failed to encrypt: " + e.getMessage());
     }
+  }
+
+  private void handleDecryption() {
+    int selectedIndex = view.getEntriesList().getSelectionModel().getSelectedIndex();
+    Integer level = view.getDecryptionLevelBox().getValue();
+
+    try {
+      EncryptedEntry entry = encryptionService.getEntry(selectedIndex);
+      String decryptedContent = encryptionService.decrypt(entry, level);
+      view.getDecryptedContentArea().setText(decryptedContent);
+    } catch (Exception e) {
+      showError("Failed to decrypt: " + e.getMessage());
+      clearDecryptedContent();
+    }
+  }
+
+  private void clearDecryptedContent() {
+    view.getDecryptedContentArea().clear();
   }
 
   private void loadExistingEntries() {
@@ -48,7 +65,7 @@ public class EncryptionController {
     view.getEntriesList().getItems().clear();
     List<EncryptedEntry> entries = encryptionService.getAllEntries();
     entries.forEach(entry -> 
-        view.getEntriesList().getItems().add(entry.toString())
+      view.getEntriesList().getItems().add(entry.toString())
     );
   }
 
