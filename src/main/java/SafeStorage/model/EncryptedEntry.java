@@ -49,7 +49,7 @@ public class EncryptedEntry {
    * @throws IllegalArgumentException
    */
   private void setTitle(String title) {
-    if (!title.matches("^[a-zA-Z0-9\\\\s._-]{1,20}$")) {
+    if (!title.matches("^[a-zA-Z0-9\\s._-]{1,20}$")) {
       throw new IllegalArgumentException("Title must be 1-20 characters and can only contain letters, numbers, spaces, dots, hyphens and underscores.");
     }
     this.title = title;
