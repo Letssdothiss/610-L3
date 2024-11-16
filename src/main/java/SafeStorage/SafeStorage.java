@@ -2,50 +2,37 @@ package SafeStorage;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import SafeStorage.view.LoginView;
 import SafeStorage.view.MainView;
-import SafeStorage.controller.LoginController;
 import SafeStorage.controller.EncryptionController;
-import SafeStorage.service.AuthenticationService;
 import SafeStorage.service.EncryptionService;
 import SafeStorage.util.EncryptionUtil;
 
 public class SafeStorage extends Application {
-    private Stage primaryStage;
-    private EncryptionUtil encryptionUtil;
-    private EncryptionService encryptionService;
+  private Stage primaryStage;
+  private EncryptionUtil encryptionUtil;
+  private EncryptionService encryptionService;
 
-    @Override
-    public void start(Stage primaryStage) {
-      this.primaryStage = primaryStage;
-      primaryStage.setTitle("Safe Storage");
+  @Override
+  public void start(Stage primaryStage) {
+    this.primaryStage = primaryStage;
+    primaryStage.setTitle("Safe Storage");
 
-      // Initialize dependencies.
-      encryptionUtil = new EncryptionUtil();
-      encryptionService = new EncryptionService(encryptionUtil);
-      AuthenticationService authService = new AuthenticationService(encryptionUtil);
+    encryptionUtil = new EncryptionUtil();
+    encryptionService = new EncryptionService(encryptionUtil);
 
-      // Set up MVC components.
-      LoginView loginView = new LoginView();
+    showMainView();
+  }
 
-      //TODO: Implement AuthenticationService
-      LoginController loginController = new LoginController(loginView, authService);
-      loginController.setOnLoginSuccess(() -> showMainView());
+  private void showMainView() {
+    MainView mainView = new MainView();
 
-      primaryStage.setScene(loginView.getScene());
-      primaryStage.show();
-    }
+    EncryptionController encryptionController = new EncryptionController(mainView, encryptionService);
 
-    private void showMainMenu() {
-      MainView mainView = new MainView();
+    primaryStage.setScene(mainView.getScene());
+    primaryStage.show();
+  }
 
-      EncryptionController encryptionController = new EncryptionController(mainView, encryptionService);
-
-      primaryStage.setScene(mainView.getScene());
-      primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-      launch(args);
-    }
+  public static void main(String[] args) {
+    launch(args);
+  }
 }
