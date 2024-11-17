@@ -1,12 +1,15 @@
 package SafeStorage.model;
 
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
 /**
  * Represents an encrypted entry in the safe storage system.
  * Each entry contains a title, encrypted content, and timestamp.
  */
-public class EncryptedEntry {
+public class EncryptedEntry implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private String title;
   private String encryptedContent;

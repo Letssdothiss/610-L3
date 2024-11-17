@@ -2,8 +2,10 @@ package SafeStorage.service;
 
 import SafeStorage.model.EncryptedEntry;
 import SafeStorage.util.EncryptionUtil;
+import SafeStorage.util.FileHandler;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
 
 /**
  * Service class that manages encryption operations and storage of encrypted entries.
@@ -12,7 +14,9 @@ import java.util.List;
 public class EncryptionService {
 
   private final EncryptionUtil encryptionUtil;
-  private final List<EncryptedEntry> entries;
+  private final FileHandler fileHandler;
+
+  private List<EncryptedEntry> entries;
 
   // Used in validation, to avoid magic numbers.
   private static final int MIN_ENCRYPTION_LEVEL = 1;
@@ -28,9 +32,23 @@ public class EncryptionService {
     try {
       this.encryptionUtil = encryptionUtil;
       this.entries = new ArrayList<>();
+      this.fileHandler = new FileHandler();
+      loadEntriesFromFile();
     } catch (Exception e) {
       throw new IllegalArgumentException("Failed to initialize encryption service: " + e.getMessage());
+    }
   }
+
+  /**
+   * Loads entries from file into the service.
+   * If loading fails, initializes an empty list.
+   */
+  private void loadEntriesFromFile() {
+    try {
+      this.entries = fileHandler.loadEntries();
+    } catch (IOException | ClassNotFoundException e) {
+      this.entries = new ArrayList<>();
+    }
   }
 
   /**
@@ -127,6 +145,11 @@ public class EncryptionService {
    */
   private EncryptedEntry saveEntry(EncryptedEntry entry) {
     entries.add(entry);
+    try {
+      fileHandler.saveEntries(entries);
+    } catch (IOException e) {
+      throw new IllegalStateException("Failed to save entries to file: " + e.getMessage());
+    }
     return entry;
   }
 
