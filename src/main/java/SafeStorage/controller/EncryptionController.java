@@ -11,11 +11,22 @@ public class EncryptionController {
   private final MainView view;
   private final EncryptionService encryptionService;
 
+  /**
+   * Creates a new EncryptionController and initializes the UI event handlers.
+   *
+   * @param view - The main view of the application
+   * @param encryptionService - The service handling encryption operations
+   * @throws IllegalArgumentException if initialization fails
+   */
   public EncryptionController(MainView view, EncryptionService encryptionService) {
-    this.view = view;
-    this.encryptionService = encryptionService;
-    initializeEventHandlers();
-    loadExistingEntries();
+    try {
+      this.view = view;
+      this.encryptionService = encryptionService;
+      initializeEventHandlers();
+      loadExistingEntries();
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Failed to initialize controller: " + e.getMessage());
+  }
   }
 
   private void initializeEventHandlers() {
@@ -26,24 +37,37 @@ public class EncryptionController {
   }
 
   private void handleEncryption() {
-    String title = view.getTitleField().getText();
-    String content = view.getContentArea().getText();
-    Integer encryptionLevel = view.getEncryptionLevelBox().getValue();
-
     try {
-      EncryptedEntry entry = encryptionService.encryptAndSave(title, content, encryptionLevel);
-      updateEntriesList();
-      clearInputs();
+      EncryptedEntry entry = createEncryptedEntry();
+      saveAndUpdateView(entry);
     } catch (Exception e) {
       showError("Failed to encrypt: " + e.getMessage());
     }
   }
 
-  private void handleDecryption() {
-    int selectedIndex = view.getEntriesList().getSelectionModel().getSelectedIndex();
-    Integer level = view.getDecryptionLevelBox().getValue();
+  private EncryptedEntry createEncryptedEntry() {
+    String title = view.getTitleField().getText();
+    String content = view.getContentArea().getText();
+    Integer encryptionLevel = view.getEncryptionLevelBox().getValue();
+    
+    return encryptionService.encryptAndSave(title, content, encryptionLevel);
+  }
 
+  private void saveAndUpdateView(EncryptedEntry entry) {
+    updateEntriesList();
+    clearInputs();
+  }
+
+  private void handleDecryption() {
     try {
+      if (view.getEntriesList().getSelectionModel().getSelectedIndex() < 0) {
+        showError("Please select an entry to decrypt");
+        return;
+      }
+
+      int selectedIndex = view.getEntriesList().getSelectionModel().getSelectedIndex();
+      Integer level = view.getDecryptionLevelBox().getValue();
+
       EncryptedEntry entry = encryptionService.getEntry(selectedIndex);
       String decryptedContent = encryptionService.decrypt(entry, level);
       view.getDecryptedContentArea().setText(decryptedContent);
@@ -62,11 +86,15 @@ public class EncryptionController {
   }
 
   private void updateEntriesList() {
-    view.getEntriesList().getItems().clear();
-    List<EncryptedEntry> entries = encryptionService.getAllEntries();
-    entries.forEach(entry -> 
-      view.getEntriesList().getItems().add(entry.toString())
-    );
+    try {
+      view.getEntriesList().getItems().clear();
+      List<EncryptedEntry> entries = encryptionService.getAllEntries();
+      entries.forEach(entry -> 
+        view.getEntriesList().getItems().add(entry.toString())
+      );
+    } catch (Exception e) {
+      showError("Failed to update entries list: " + e.getMessage());
+    }
   }
 
   private void clearInputs() {
