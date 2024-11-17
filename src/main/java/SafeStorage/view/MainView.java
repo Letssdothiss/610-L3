@@ -8,6 +8,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.collections.FXCollections;
 
+/**
+ * Main view class for the SafeStorage application.
+ * Provides the user interface for encrypting and decrypting text entries.
+ * 
+ * @version 1.0.0
+ */
 public class MainView {
 
   private final Scene scene;
@@ -20,6 +26,10 @@ public class MainView {
   private final Button decryptButton;
   private final ListView<String> entriesList;
   
+  /**
+   * Constructs the main view with all UI components.
+   * Initializes and layouts all controls for encryption and decryption.
+   */
   public MainView() {
     VBox layout = new VBox(20);
     layout.setPadding(new Insets(40));
