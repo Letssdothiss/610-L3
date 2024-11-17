@@ -1,115 +1,123 @@
 package test.java.SafeStorage.controller;
 
-import SafeStorage.controller.EncryptionController;
-import SafeStorage.service.EncryptionService;
-import SafeStorage.view.MainView;
-import SafeStorage.util.EncryptionUtil;
-import org.junit.jupiter.api.BeforeEach;
+import SafeStorage.SafeStorage;
 import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
+import javafx.stage.Stage;
+import javafx.scene.input.KeyCode;
+import org.testfx.matcher.control.ListViewMatchers;
+import javafx.scene.control.ListView;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
-public class EncryptionControllerTest {
+public class EncryptionControllerTest extends ApplicationTest {
   
-  private EncryptionController controller;
-    private MainView view;
-    private EncryptionService service;
-    
-  @BeforeEach
-  void setUp() {
-    service = new EncryptionService(new EncryptionUtil());
-    view = new MainView();
-    controller = new EncryptionController(view, service);
+  @Override
+  public void start(Stage stage) {
+    new SafeStorage().start(stage);
   }
     
-  @Test
-  void constructor_ValidParameters() {
-    assertNotNull(controller);
-  }
-
   @Test
   void handleEncryption_ValidInput() {
-    // Setup input fields
-    view.getTitleField().setText("Test Title");
-    view.getContentArea().setText("Test Content");
-    view.getEncryptionLevelBox().setValue(1);
+    // Input test data
+    clickOn("#titleField").write("Test Title");
+    clickOn("#contentArea").write("Test Content");
+    clickOn("#encryptionLevelBox").clickOn("1");
         
     // Trigger encryption
-    view.getEncryptButton().fire();
+    clickOn("#encryptButton");
         
-    // Verify
-    assertEquals(1, view.getEntriesList().getItems().size());
-    assertTrue(view.getTitleField().getText().isEmpty());
-    assertTrue(view.getContentArea().getText().isEmpty());
+    // Verify results
+    verifyThat("#entriesList", ListViewMatchers.hasItems(1));
+    verifyThat("#titleField", hasText(""));
+    verifyThat("#contentArea", hasText(""));
   }
     
   @Test
   void handleEncryption_InvalidInput() {
-    // Setup invalid input
-    view.getTitleField().setText("");
-    view.getContentArea().setText("Test Content");
-    view.getEncryptionLevelBox().setValue(1);
+    // Try to encrypt with empty title
+    clickOn("#contentArea").write("Test Content");
+    clickOn("#encryptionLevelBox").clickOn("1");
+    clickOn("#encryptButton");
         
-    // Trigger encryption
-    view.getEncryptButton().fire();
-       
-    // Verify
-    assertEquals(0, view.getEntriesList().getItems().size());
+    // Verify no entry was added
+    verifyThat("#entriesList", ListViewMatchers.hasItems(0));
   }
-
+    
   @Test
   void handleDecryption_ValidSelection() {
     // First encrypt something
-    view.getTitleField().setText("Test Title");
-    view.getContentArea().setText("Test Content");
-    view.getEncryptionLevelBox().setValue(1);
-    view.getEncryptButton().fire();
+    clickOn("#titleField").write("Test Title");
+    clickOn("#contentArea").write("Test Content");
+    clickOn("#encryptionLevelBox").clickOn("1");
+    clickOn("#encryptButton");
+        
+    // Then decrypt it
+    // First click the ListView itself
+    clickOn("#entriesList");
+        
+    // Then click the first item in the list
+    ListView<?> list = lookup("#entriesList").queryListView();
+    String firstItem = list.getItems().get(0).toString();
+    
+    clickOn(firstItem);
+    clickOn("#decryptionLevelBox").clickOn("1");
+    clickOn("#decryptButton");
+        
+    // Verify decrypted content
+    verifyThat("#decryptedContentArea", hasText("Test Content"));
       
-    // Select the entry
-    view.getEntriesList().getSelectionModel().select(0);
-    view.getDecryptionLevelBox().setValue(1);
-      
-    // Trigger decryption
-    view.getDecryptButton().fire();
-      
-    // Verify
-    assertEquals("Test Content", view.getDecryptedContentArea().getText());
   }
   
   @Test
   void handleDecryption_WrongLevel() {
     // First encrypt something
-    view.getTitleField().setText("Test Title");
-    view.getContentArea().setText("Test Content");
-    view.getEncryptionLevelBox().setValue(1);
-    view.getEncryptButton().fire();
-      
-    // Select entry but use wrong level
-    view.getEntriesList().getSelectionModel().select(0);
-    view.getDecryptionLevelBox().setValue(2);
-      
-    // Trigger decryption
-    view.getDecryptButton().fire();
-      
-    // Verify
-    assertNotEquals("Test Content", view.getDecryptedContentArea().getText());
+    clickOn("#titleField").write("Test Title");
+    clickOn("#contentArea").write("Test Content");
+    clickOn("#encryptionLevelBox").clickOn("1");
+    clickOn("#encryptButton");
+        
+    // Then try to decrypt with wrong level
+    // First click the ListView itself
+    clickOn("#entriesList");
+        
+    // Then click the first item in the list
+    ListView<?> list = lookup("#entriesList").queryListView();
+    String firstItem = list.getItems().get(0).toString();
+     
+    clickOn(firstItem);
+    clickOn("#decryptionLevelBox").clickOn("2");
+    clickOn("#decryptButton");
+        
+    // Verify content is not decrypted correctly.
+    verifyThat("#decryptedContentArea", hasText(""));
   }
   
   @Test
   void handleDecryption_NoSelection() {
-    view.getDecryptButton().fire();
-    assertTrue(view.getDecryptedContentArea().getText().isEmpty());
+    // Try to decrypt without selection
+    clickOn("#decryptButton");
+        
+    // Verify decrypted area is empty
+    verifyThat("#decryptedContentArea", hasText(""));
   }
   
   @Test
   void listSelection_ClearsDecryptedContent() {
-    // First set some decrypted content
-    view.getDecryptedContentArea().setText("Some content");
-      
-    // Trigger selection change
-    view.getEntriesList().getSelectionModel().clearSelection();
-      
+    // First encrypt and decrypt something
+    clickOn("#titleField").write("Test Title");
+    clickOn("#contentArea").write("Test Content");
+    clickOn("#encryptionLevelBox").clickOn("1");
+    clickOn("#encryptButton");
+    clickOn("#entriesList");
+    clickOn("#decryptionLevelBox").clickOn("1");
+    clickOn("#decryptButton");
+        
+    // Change selection
+    press(KeyCode.ESCAPE);
+       
     // Verify content was cleared
-    assertTrue(view.getDecryptedContentArea().getText().isEmpty());
+    verifyThat("#decryptedContentArea", hasText(""));
   }
 }

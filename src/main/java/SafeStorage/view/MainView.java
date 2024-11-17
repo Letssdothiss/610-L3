@@ -29,45 +29,54 @@ public class MainView {
     Label titleLabel = new Label("Safe Storage");
     titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
-    // Entry title input
+    // Entry title input.
     titleField = new TextField();
+    titleField.setId("titleField");
     titleField.setPromptText("Enter title for encrypted entry");
     titleField.setMaxWidth(300);
 
-    // Content input
+    // Content input.
     contentArea = new TextArea();
+    contentArea.setId("contentArea");
     contentArea.setPromptText("Enter content to encrypt");
     contentArea.setPrefRowCount(5);
     contentArea.setMaxWidth(300);
 
-    // Encryption level selector
+    // Encryption level selector.
     encryptionLevelBox = new ComboBox<>(FXCollections.observableArrayList(1, 2, 3, 4, 5));
+    encryptionLevelBox.setId("encryptionLevelBox");
     encryptionLevelBox.setPromptText("Select encryption level");
-    encryptionLevelBox.setValue(1); // Default value
+    encryptionLevelBox.setValue(1); // Default value.
 
-    // Encrypt button with level selection
+    // Encrypt button with level selection.
     HBox encryptionBox = new HBox(10);
     encryptionBox.setAlignment(Pos.CENTER);
     encryptButton = new Button("Encrypt");
+    encryptButton.setId("encryptButton");
     encryptionBox.getChildren().addAll(encryptionLevelBox, encryptButton);
 
-    // List of encrypted entries
+    // List of encrypted entries.
     entriesList = new ListView<>();
+    entriesList.setId("entriesList");
     entriesList.setPrefHeight(200);
     entriesList.setMaxWidth(300);
 
-    // Decryption section
+    // Decryption section.
     decryptionLevelBox = new ComboBox<>(FXCollections.observableArrayList(1, 2, 3, 4, 5));
+    decryptionLevelBox.setId("decryptionLevelBox");
     decryptionLevelBox.setPromptText("Select decryption level");
-    decryptionLevelBox.setValue(1); // Default value
+    decryptionLevelBox.setValue(1); // Default value.
 
+    // Decrypt button with level selection.
     HBox decryptionBox = new HBox(10);
     decryptionBox.setAlignment(Pos.CENTER);
     decryptButton = new Button("Decrypt Selected");
+    decryptButton.setId("decryptButton");
     decryptionBox.getChildren().addAll(decryptionLevelBox, decryptButton);
 
-    // Decrypted content display
+    // Decrypted content display.
     decryptedContentArea = new TextArea();
+    decryptedContentArea.setId("decryptedContentArea");
     decryptedContentArea.setPromptText("Decrypted content will appear here");
     decryptedContentArea.setPrefRowCount(5);
     decryptedContentArea.setMaxWidth(300);
