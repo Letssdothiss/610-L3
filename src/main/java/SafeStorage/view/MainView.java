@@ -11,8 +11,6 @@ import javafx.collections.FXCollections;
 /**
  * Main view class for the SafeStorage application.
  * Provides the user interface for encrypting and decrypting text entries.
- * 
- * @version 1.0.0
  */
 public class MainView {
 
