@@ -4,18 +4,13 @@ import java.time.LocalDateTime;
 
 /**
  * Represents an encrypted entry in the safe storage system.
- * Each entry contains a title, encrypted content, encryption level, and timestamp.
+ * Each entry contains a title, encrypted content, and timestamp.
  */
 public class EncryptedEntry {
 
   private String title;
   private String encryptedContent;
-  private int encryptionLevel;
   private LocalDateTime timestamp;
-
-  // Used in validation, to avoid magic numbers.
-  private static final int MIN_ENCRYPTION_LEVEL = 1;
-  private static final int MAX_ENCRYPTION_LEVEL = 5;
 
   /**
     * Creates a new encrypted entry with the specified parameters.
@@ -23,21 +18,18 @@ public class EncryptedEntry {
     *
     * @param title - The title of the entry (1-20 characters, alphanumeric and basic punctuation)
     * @param encryptedContent - The encrypted content to be stored
-    * @param encryptionLevel - The level of encryption used (1-5)
     * @throws IllegalArgumentException if any validation fails
     */
-  public EncryptedEntry(String title, String encryptedContent, int encryptionLevel) {
+  public EncryptedEntry(String title, String encryptedContent) {
     
     // Validation before setting states to prevent invalid object creation.
     if (title.isEmpty()) {
       throw new IllegalArgumentException("Title must not be empty.");
     }
     encryptedContentValidation(encryptedContent);
-    encryptionLevelValidation(encryptionLevel);
 
     setTitle(title);
     setEncryptedContent(encryptedContent);
-    setEncryptionLevel(encryptionLevel);
     this.timestamp = LocalDateTime.now();
   }
 
@@ -67,30 +59,6 @@ public class EncryptedEntry {
   }
 
   /**
-   * Setter for the used encryption level.
-   * Validates the encryption level, used in the constructor.
-   * 
-   * @param encryptionLevel - The level of encryption used to encrypt the encrypted content.
-   */
-  private void setEncryptionLevel(int encryptionLevel) {
-    encryptionLevelValidation(encryptionLevel);
-    this.encryptionLevel = encryptionLevel;
-  }
-
-  /**
-   * Validation method for the encryption level.
-   * Makes sure the encryption level is between 1-5
-   * 
-   * @param encryptionLevel - The entered encryption level.
-   * @throws IllegalArgumentException
-   */
-  private void encryptionLevelValidation(int encryptionLevel) {
-    if (encryptionLevel < MIN_ENCRYPTION_LEVEL || encryptionLevel > MAX_ENCRYPTION_LEVEL) {
-      throw new IllegalArgumentException("Encryption level between 1-5 must be chosen.");
-    }
-  }
-
-  /**
    * Validation method for the encrypted content.
    * Makes sure the encrypted content is not empty.
    * 
@@ -109,10 +77,6 @@ public class EncryptedEntry {
 
   public String getEncryptedContent() { 
     return encryptedContent; 
-  }
-
-  public int getEncryptionLevel() { 
-    return encryptionLevel; 
   }
 
   public LocalDateTime getTimestamp() { 
