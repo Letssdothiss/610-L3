@@ -66,7 +66,7 @@ public class EncryptionController {
    * Creates a new encrypted entry from user input.
    * Retrieves title, content, and encryption level from the UI.
    *
-   * @return The newly created and encrypted entry
+   * @return The newly created and encrypted entry.
    */
   private EncryptedEntry createEncryptedEntry() {
     String title = view.getTitleField().getText();
@@ -77,11 +77,21 @@ public class EncryptionController {
   }
 
 
+  /**
+   * Updates the UI after successfully saving an encrypted entry.
+   * Refreshes the entries list and clears input fields.
+   *
+   * @param entry - The entry that was just saved
+   */
   private void saveAndUpdateView(EncryptedEntry entry) {
     updateEntriesList();
     clearInputs();
   }
 
+  /**
+   * Handles the decryption process when the decrypt button is clicked.
+   * Validates selection and displays decrypted content.
+   */
   private void handleDecryption() {
     try {
       validateSelection();
@@ -91,12 +101,22 @@ public class EncryptionController {
     }
   }
 
+  /**
+   * Validates that an entry is selected before attempting decryption.
+   *
+   * @throws IllegalStateException if no entry is selected
+   */
   private void validateSelection() {
     if (view.getEntriesList().getSelectionModel().getSelectedIndex() < 0) {
       throw new IllegalStateException("Please select an entry to decrypt");
     }
   }
 
+
+  /**
+   * Decrypts the selected entry and displays its content.
+   * Uses the selected decryption level from the UI.
+   */
   private void decryptAndDisplayContent() {
     EncryptedEntry entry = getSelectedEntry();
     Integer level = view.getDecryptionLevelBox().getValue();
@@ -104,16 +124,31 @@ public class EncryptionController {
     view.getDecryptedContentArea().setText(decryptedContent);
   }
 
+  /**
+   * Retrieves the currently selected entry from the list.
+   *
+   * @return The selected EncryptedEntry
+   */
   private EncryptedEntry getSelectedEntry() {
     int selectedIndex = view.getEntriesList().getSelectionModel().getSelectedIndex();
     return encryptionService.getEntry(selectedIndex);
   }
 
+  /**
+   * Handles errors that occur during decryption.
+   * Shows error message and clears decrypted content area.
+   *
+   * @param e - The exception that occurred
+   */
   private void handleDecryptionError(Exception e) {
     showError("Failed to decrypt: " + e.getMessage());
     clearDecryptedContent();
   }
 
+  /**
+   * Updates the list of encrypted entries in the UI.
+   * Clears existing entries and displays current ones.
+   */
   private void updateEntriesList() {
     try {
         clearEntriesList();
@@ -123,30 +158,52 @@ public class EncryptionController {
     }
   }
 
+  /**
+   * Clears all entries from the list view.
+   */
   private void clearEntriesList() {
     view.getEntriesList().getItems().clear();
   }
 
+  /**
+   * Displays all encrypted entries in the list view.
+   * Uses entry's toString() method for display.
+   */
   private void displayEntries() {
     List<EncryptedEntry> entries = encryptionService.getAllEntries();
+    // Add each entry to the ListView using its string representation.
     entries.forEach(entry -> 
         view.getEntriesList().getItems().add(entry.toString())
     );
   }
 
+  /**
+   * Clears the decrypted content area.
+   */
   private void clearDecryptedContent() {
     view.getDecryptedContentArea().clear();
   }
 
+  /**
+   * Loads existing entries when the controller is initialized.
+   */
   private void loadExistingEntries() {
     updateEntriesList();
   }
 
+  /**
+   * Clears all input fields after successful encryption.
+   */
   private void clearInputs() {
     view.getTitleField().clear();
     view.getContentArea().clear();
   }
 
+  /**
+   * Displays an error message to the user.
+   *
+   * @param message - The error message to display
+   */
   private void showError(String message) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setTitle("Error");
