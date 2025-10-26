@@ -1,7 +1,7 @@
 package SafeStorage.model;
 
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Represents an encrypted entry in the safe storage system.
@@ -13,7 +13,6 @@ public class EncryptedEntry implements Serializable {
 
   private String title;
   private String encryptedContent;
-  private LocalDateTime timestamp;
 
   /**
     * Creates a new encrypted entry with the specified parameters.
@@ -33,7 +32,6 @@ public class EncryptedEntry implements Serializable {
 
     setTitle(title);
     setEncryptedContent(encryptedContent);
-    this.timestamp = LocalDateTime.now();
   }
 
   /**
@@ -82,19 +80,42 @@ public class EncryptedEntry implements Serializable {
     return encryptedContent; 
   }
 
-  public LocalDateTime getTimestamp() { 
-    return timestamp; 
-  }
-
   /**
      * Returns a string representation of this entry.
-     * Only includes non-sensitive information (title and timestamp).
+     * Only includes non-sensitive information.
      * 
-     * @return String containing the entry's title and creation timestamp
+     * @return String containing the entry's title.
      */
   @Override
   public String toString() {
-    return title + " (Created: " + timestamp + ")";
+    return title;
+  }
+
+  /**
+   * Compares this entry with another object for equality.
+   * Two entries are considered equal if they have the same title and encrypted content.
+   * 
+   * @param o - The object to compare with
+   * @return true if the objects are equal, false otherwise
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    EncryptedEntry that = (EncryptedEntry) o;
+    return Objects.equals(title, that.title) &&
+           Objects.equals(encryptedContent, that.encryptedContent);
+  }
+
+  /**
+   * Returns a hash code for this entry.
+   * The hash code is based on the title and encrypted content.
+   * 
+   * @return The hash code for this entry
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(title, encryptedContent);
   }
 }
 

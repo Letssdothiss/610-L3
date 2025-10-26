@@ -17,11 +17,17 @@ public class EncryptionServiceTest {
     
   @BeforeEach
   void setUp() {
-    // Clean up any existing test file
-    File file = new File("encrypted_entries.dat");
-    if (file.exists()) {
-      file.delete();
+    // Clean up any existing test files
+    File file1 = new File("encrypted_entries.dat");
+    File file2 = new File("test_encrypted_entries.dat");
+    if (file1.exists()) {
+      file1.delete();
     }
+    if (file2.exists()) {
+      file2.delete();
+    }
+    // Set system property for test file path to ensure isolation
+    System.setProperty("storage.file.path", "test_encrypted_entries.dat");
     service = new EncryptionService(new EncryptionUtil());
   }
 
@@ -123,5 +129,23 @@ public class EncryptionServiceTest {
     assertEquals(2, entries.size());
     assertEquals("Title1", entries.get(0).getTitle());
     assertEquals("Title2", entries.get(1).getTitle());
+  }
+
+  @Test
+  void shouldDecryptAfterAppRestart() {
+    // Arrange - Create and save an entry
+    service.encryptAndSave("Test Title", "Test Content", 3);
+    
+    // Act - Simulate app restart (new service instance)
+    EncryptionService newService = new EncryptionService(new EncryptionUtil());
+    
+    // Assert - Verify we can decrypt the loaded entry
+    List<EncryptedEntry> loadedEntries = newService.getAllEntries();
+    assertEquals(1, loadedEntries.size());
+    
+    EncryptedEntry loadedEntry = loadedEntries.get(0);
+    String decryptedContent = newService.decrypt(loadedEntry, 3);
+    
+    assertEquals("Test Content", decryptedContent);
   }
 }

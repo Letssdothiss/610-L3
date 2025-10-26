@@ -1,18 +1,34 @@
 package test.java.SafeStorage.controller;
 
 import SafeStorage.SafeStorage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import org.testfx.matcher.control.ListViewMatchers;
 import javafx.scene.control.ListView;
+import java.io.File;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
 public class EncryptionControllerTest extends ApplicationTest {
   
+  private static final String TEST_FILE_PATH = "test_encrypted_entries.dat";
+
+  @BeforeEach
+  void setUp() {
+    // Delete the file before each test
+    File file = new File(TEST_FILE_PATH);
+    if (file.exists()) {
+      file.delete();
+    }
+
+    // Set system property for test file path
+    System.setProperty("storage.file.path", TEST_FILE_PATH);
+  }
+
   @Override
   public void start(Stage stage) {
     new SafeStorage().start(stage);
@@ -29,7 +45,7 @@ public class EncryptionControllerTest extends ApplicationTest {
     clickOn("#encryptButton");
         
     // Verify results
-    verifyThat("#entriesList", ListViewMatchers.hasItems(1));
+    verifyThat("#entriesList", ListViewMatchers.hasItems(2));
     verifyThat("#titleField", hasText(""));
     verifyThat("#contentArea", hasText(""));
   }

@@ -1,14 +1,36 @@
-# Local notes to self, not to be sharde to repo.
+# Local notes to self, not to be shared to repo.
 LocalNotes.md
+CurrentStateAndTodo.md
 
 # JavaFX SDK
 lib/javafx-sdk*/
 
 # bin
 bin/
+out/
+build/
 
 # class files
 *.class
 
 # VSCode
 .vscode/
+
+# Runtime files
+*.dat
+encrypted_entries.dat
+test_encrypted_entries.dat
+
+# Temporary files
+temp_jpackage/
+*.tmp
+
+# Package files
+*.jar
+!lib/StringCryption.jar
+!lib/testfx*.jar
+!lib/junit*.jar
+
+# Windows specific
+Thumbs.db
+Desktop.ini

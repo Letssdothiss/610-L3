@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Main-Class: SafeStorage.SafeStorage
+Class-Path: lib/StringCryption.jar lib/javafx-sdk-23.0.1/lib/javafx.base.jar 
+ lib/javafx-sdk-23.0.1/lib/javafx.controls.jar 
+ lib/javafx-sdk-23.0.1/lib/javafx.fxml.jar 
+ lib/javafx-sdk-23.0.1/lib/javafx.graphics.jar

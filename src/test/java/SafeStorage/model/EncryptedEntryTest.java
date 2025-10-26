@@ -18,7 +18,6 @@ class EncryptedEntryTest {
     // Verify all fields are set correctly
     assertEquals(VALID_TITLE, entry.getTitle());
     assertEquals(VALID_CONTENT, entry.getEncryptedContent());
-    assertNotNull(entry.getTimestamp());
   }
 
   @Test
@@ -63,7 +62,6 @@ class EncryptedEntryTest {
     String toString = entry.toString();
         
     assertTrue(toString.contains(VALID_TITLE));
-    assertTrue(toString.contains("Created:"));
     assertFalse(toString.contains(VALID_CONTENT));
   }
 }
