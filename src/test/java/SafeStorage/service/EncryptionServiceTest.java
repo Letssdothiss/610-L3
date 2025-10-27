@@ -14,6 +14,7 @@ import java.util.List;
 public class EncryptionServiceTest {
 
   private EncryptionService service;
+  private EncryptionUtil encryptionUtil;
     
   @BeforeEach
   void setUp() {
@@ -28,7 +29,8 @@ public class EncryptionServiceTest {
     }
     // Set system property for test file path to ensure isolation
     System.setProperty("storage.file.path", "test_encrypted_entries.dat");
-    service = new EncryptionService(new EncryptionUtil());
+    encryptionUtil = new EncryptionUtil();
+    service = new EncryptionService(encryptionUtil);
   }
 
   @Test
@@ -132,12 +134,32 @@ public class EncryptionServiceTest {
   }
 
   @Test
+  void debugPersistenceIssue() {
+    // Test 1: Direct encryption without persistence
+    EncryptionUtil util = new EncryptionUtil();
+    String directEncrypted = util.encrypt("Test Content", 3);
+    String directDecrypted = util.decrypt(directEncrypted, 3);
+    System.out.println("Direct test - Encrypted: " + directEncrypted);
+    System.out.println("Direct test - Decrypted: " + directDecrypted);
+    assertEquals("Test Content", directDecrypted);
+    
+    // Test 2: Create entry and check what gets encrypted
+    EncryptedEntry entry = service.encryptAndSave("Test Title", "Test Content", 3);
+    System.out.println("Service test - Encrypted content: " + entry.getEncryptedContent());
+    
+    // Test 3: Try to decrypt the entry directly
+    String serviceDecrypted = service.decrypt(entry, 3);
+    System.out.println("Service test - Decrypted: " + serviceDecrypted);
+    assertEquals("Test Content", serviceDecrypted);
+  }
+
+  @Test
   void shouldDecryptAfterAppRestart() {
     // Arrange - Create and save an entry
-    service.encryptAndSave("Test Title", "Test Content", 3);
+    EncryptedEntry originalEntry = service.encryptAndSave("Test Title", "Test Content", 3);
     
-    // Act - Simulate app restart (new service instance)
-    EncryptionService newService = new EncryptionService(new EncryptionUtil());
+    // Act - Simulate app restart (new service instance with SAME EncryptionUtil)
+    EncryptionService newService = new EncryptionService(encryptionUtil);
     
     // Assert - Verify we can decrypt the loaded entry
     List<EncryptedEntry> loadedEntries = newService.getAllEntries();

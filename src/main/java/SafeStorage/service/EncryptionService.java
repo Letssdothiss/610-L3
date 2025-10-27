@@ -38,6 +38,14 @@ public class EncryptionService {
       throw new IllegalArgumentException("Failed to initialize encryption service: " + e.getMessage());
     }
   }
+  
+  /**
+   * Creates a new EncryptionService with a new EncryptionUtil instance.
+   * This constructor should be used when simulating app restarts.
+   */
+  public EncryptionService() {
+    this(new EncryptionUtil());
+  }
 
   /**
    * Loads entries from file into the service.
