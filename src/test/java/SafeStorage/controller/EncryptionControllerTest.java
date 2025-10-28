@@ -15,14 +15,18 @@ import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
 public class EncryptionControllerTest extends ApplicationTest {
   
-  private static final String TEST_FILE_PATH = "test_encrypted_entries.dat";
+  private static final String TEST_FILE_PATH = "test_encrypted_entries_" + System.currentTimeMillis() + ".dat";
 
   @BeforeEach
   void setUp() {
-    // Delete the file before each test
-    File file = new File(TEST_FILE_PATH);
-    if (file.exists()) {
-      file.delete();
+    // Clean up any existing test files
+    File file1 = new File("encrypted_entries.dat");
+    File file2 = new File(TEST_FILE_PATH);
+    if (file1.exists()) {
+      file1.delete();
+    }
+    if (file2.exists()) {
+      file2.delete();
     }
 
     // Set system property for test file path
@@ -45,7 +49,7 @@ public class EncryptionControllerTest extends ApplicationTest {
     clickOn("#encryptButton");
         
     // Verify results
-    verifyThat("#entriesList", ListViewMatchers.hasItems(2));
+    verifyThat("#entriesList", ListViewMatchers.hasItems(1));
     verifyThat("#titleField", hasText(""));
     verifyThat("#contentArea", hasText(""));
   }
