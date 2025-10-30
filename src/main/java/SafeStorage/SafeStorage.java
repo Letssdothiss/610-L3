@@ -11,7 +11,7 @@ import SafeStorage.util.EncryptionUtil;
  * Main application class for SafeStorage.
  * Initializes and launches the JavaFX application for secure text storage and encryption.
  * 
- * @version 1.0.0
+ * @version 0.1.0
  */
 public class SafeStorage extends Application {
 
@@ -19,12 +19,6 @@ public class SafeStorage extends Application {
   private EncryptionUtil encryptionUtil;
   private EncryptionService encryptionService;
 
-  /**
-   * Starts the JavaFX application.
-   * Initializes the encryption utilities and displays the main view.
-   * 
-   * @param primaryStage The primary stage for this application
-   */
   @Override
   public void start(Stage primaryStage) {
     this.primaryStage = primaryStage;
@@ -36,10 +30,6 @@ public class SafeStorage extends Application {
     showMainView();
   }
 
-  /**
-   * Creates and displays the main view of the application.
-   * Initializes the controller and connects it to the view.
-   */
   private void showMainView() {
     MainView mainView = new MainView();
 

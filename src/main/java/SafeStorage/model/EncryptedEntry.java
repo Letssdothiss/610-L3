@@ -16,11 +16,6 @@ public class EncryptedEntry implements Serializable {
 
   /**
     * Creates a new encrypted entry with the specified parameters.
-    * Validates all inputs before creating the entry to ensure valid state.
-    *
-    * @param title - The title of the entry (1-20 characters, alphanumeric and basic punctuation)
-    * @param encryptedContent - The encrypted content to be stored
-    * @throws IllegalArgumentException if any validation fails
     */
   public EncryptedEntry(String title, String encryptedContent) {
     
@@ -34,13 +29,6 @@ public class EncryptedEntry implements Serializable {
     setEncryptedContent(encryptedContent);
   }
 
-  /**
-   * Setter for the title.
-   * Validates the title parameter, used in the constructor.
-   *
-   * @param title - The title of the encrypted content entry.
-   * @throws IllegalArgumentException
-   */
   private void setTitle(String title) {
     if (!title.matches("^[a-zA-Z0-9\\s._-]{1,20}$")) {
       throw new IllegalArgumentException("Title must be 1-20 characters and can only contain letters, numbers, spaces, dots, hyphens and underscores.");
@@ -48,24 +36,11 @@ public class EncryptedEntry implements Serializable {
     this.title = title;
   }
 
-  /**
-   * Setter for the encrypted content.
-   * Validates the encrypted content, used in the constructor.
-   * 
-   * @param encryptedContent - The encrypted content to be stored.
-   */
   private void setEncryptedContent(String encryptedContent) {
     encryptedContentValidation(encryptedContent);
     this.encryptedContent = encryptedContent;
   }
 
-  /**
-   * Validation method for the encrypted content.
-   * Makes sure the encrypted content is not empty.
-   * 
-   * @param encryptedContent
-   * @throws IllegalArgumentException
-   */
   private void encryptedContentValidation(String encryptedContent) {
     if (encryptedContent.isEmpty()) {
       throw new IllegalArgumentException("Content cannot be empty.");
@@ -80,12 +55,6 @@ public class EncryptedEntry implements Serializable {
     return encryptedContent; 
   }
 
-  /**
-     * Returns a string representation of this entry.
-     * Only includes non-sensitive information.
-     * 
-     * @return String containing the entry's title.
-     */
   @Override
   public String toString() {
     return title;
@@ -110,8 +79,6 @@ public class EncryptedEntry implements Serializable {
   /**
    * Returns a hash code for this entry.
    * The hash code is based on the title and encrypted content.
-   * 
-   * @return The hash code for this entry
    */
   @Override
   public int hashCode() {

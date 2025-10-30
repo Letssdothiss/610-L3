@@ -26,7 +26,6 @@ public class MainView {
   
   /**
    * Constructs the main view with all UI components.
-   * Initializes and layouts all controls for encryption and decryption.
    */
   public MainView() {
     VBox layout = new VBox(20);

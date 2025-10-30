@@ -16,12 +16,6 @@ public class FileHandler {
     this.filePath = System.getProperty("storage.file.path", "encrypted_entries.dat");
   }
 
-  /**
-   * Saves a list of encrypted entries to file.
-   * 
-   * @param entries The list of entries to save
-   * @throws IOException if writing to file fails
-   */
   public void saveEntries(List<EncryptedEntry> entries) throws IOException {
     try (ObjectOutputStream oos = new ObjectOutputStream(
         new FileOutputStream(this.filePath))) {
@@ -29,13 +23,6 @@ public class FileHandler {
     }
   }
 
-  /**
-   * Loads encrypted entries from file.
-   * 
-   * @return List of loaded encrypted entries
-   * @throws IOException if reading from file fails
-   * @throws ClassNotFoundException if deserialization fails
-   */
   @SuppressWarnings("unchecked")
   public List<EncryptedEntry> loadEntries() throws IOException, ClassNotFoundException {
     if (!new File(this.filePath).exists()) {
