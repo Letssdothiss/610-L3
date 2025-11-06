@@ -175,6 +175,34 @@ Regarding `Domain-Specific Language`, I've tried to use domain-specific method n
 
 # Reflections Module
 
+## Refactoring
+
+Images and comments regarding the refactoring of the module(L2).
+
+### encryptionCipher.java
+
+This class has gone through a major refactoring: 
+- validation has been lifted from the actual encryption and decryption methods. 
+- the different ways to handle the shifting of characters have also been refactored to separate methods. 
+- Renaming. 
+- Most comments have been removed. 
+- A private, unchangable member attribute have been introduced to reduce method responsibility. 
+- Some rearranging of the code blocks have been made to improve the formatting. 
+
+This Class was not poorly structured but it was far from followin Clean Code regulations, now, several improvements have been made to take it alot closer to being "Clean Code". 
+
+`Before Refactoring`
+
+![encryptionCipherBefore](./img/moduleRefactor/encryptionCipherBefore.png)
+---
+---
+
+`After Refactoring`
+
+![encryptionCipherAfter](./img/moduleRefactor/encryptionCipherAfter.png)
+---
+---
+
 # Final & Personal Reflections.
 
 Vad gäller L3 så var uppgiften 90% klar och fullt fungerande lokalt när jag pausade arbetet för ett år sedan snart. Jag uppfattade felaktigt att jag behövde vänta till nästa kursomgång och omregistrera mig. 
