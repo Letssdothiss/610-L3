@@ -1,6 +1,12 @@
 # SafeStorage Desktop Application
 # Version 0.1.0
 
+## Reflections & Module URL
+
+[Reflections](./REFLECTIONS.md)
+
+[Module Repository]()
+
 ## Beta
 
 The application is fully functional, usable and tested, but the process to actually run this on your local machine is a bit more complex, therefore i will call this a Beta version and keep the major version at 0 for the time being.
