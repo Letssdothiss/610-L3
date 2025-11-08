@@ -179,7 +179,7 @@ Regarding `Domain-Specific Language`, I've tried to use domain-specific method n
 
 Images and comments regarding the refactoring of the module(L2).
 
-### encryptionCipher.java
+### EncryptionCipher.java
 
 This class has gone through a major refactoring: 
 - validation has been lifted from the actual encryption and decryption methods. 
@@ -193,18 +193,104 @@ This Class was not poorly structured but it was far from followin Clean Code reg
 
 `Before Refactoring`
 
-![encryptionCipherBefore](./img/moduleRefactor/encryptionCipherBefore.png)
+![EncryptionCipherBefore](./img/moduleRefactor/encryptionCipherBefore.png)
 ---
 ---
 
 `After Refactoring`
 
-![encryptionCipherAfter](./img/moduleRefactor/encryptionCipherAfter.png)
+![EncryptionCipherAfter](./img/moduleRefactor/encryptionCipherAfter.png)
+---
+---
+
+### Salt.java
+
+This class has gone through a major refactoring:
+- Validation have been refactored to its own methods/functions and then called where needed.
+- The add and remove salt methods have been refactored by moving logic to separate methods/functions.
+- Most comments were removed.
+- Unused code removed.
+
+`Before Refactoring`
+
+![SaltBefore](./img/moduleRefactor/SaltBefore.png)
+---
+---
+
+`After Refactoring`
+
+![SaltAfter](./img/moduleRefactor/SaltAfter.png)
+---
+---
+
+### Encryption.java
+
+This class has gone through a minor refactoring:
+- Variables were inconsistent(local, instance, magic.) and spread out, refactored to member attributes.
+- Reduced amount of comments.
+
+`Before Refactoring`
+
+![EncryptionBefore](./img/moduleRefactor/EncryptionBefore.png)
+---
+---
+
+`After Refactoring`
+
+![EncryptionAfter](./img/moduleRefactor/EncryptionAfter.png)
+---
+---
+
+### StringManipulator.java
+
+This class has gone through a major refactoring:
+- Remove most comments.
+- Reduce some code by moving it from its own line to the return statement.
+- Several methods have been refactored, creating several smaller methods.
+
+`Before Refactoring`
+
+![StringManipulatorBefore1](./img/moduleRefactor/StringManipulatorBefore1.png) 
+---
+![StringManipulatorBefore2](./img/moduleRefactor/StringManipulatorBefore2.png) 
+---
+![StringManipulatorBefore3](./img/moduleRefactor/StringManipulatorBefore3.png)
+---
+---
+
+`After Refactoring`
+
+![StringManipulatorAfter1](./img/moduleRefactor/StringManipulatorAfter1.png) 
+---
+![StringManipulatorAfter2](./img/moduleRefactor/StringManipulatorAfter2.png) 
+---
+![StringManipulatorAfter3](./img/moduleRefactor/StringManipulatorAfter3.png)
+---
+---
+
+### StringCryption.java
+
+This class has gone through a minor refactoring:
+- Reduced comments.
+- Validation lifted to separate methods.
+- Switch conditionals lifted to separate methods.
+
+`Before Refactoring`
+
+![StringCryptionBefore1](./img/moduleRefactor/StringCryptionBefore1.png) ![StringCryptionBefore2](./img/moduleRefactor/StringCryptionBefore2.png)
+---
+---
+
+`After Refactoring`
+
+![StringCryptionAfter1](./img/moduleRefactor/StringCryptionAfter1.png) ![StringCryptionAfter2](./img/moduleRefactor/StringCryptionAfter2.png)
 ---
 ---
 
 # Final & Personal Reflections.
 
-Vad gäller L3 så var uppgiften 90% klar och fullt fungerande lokalt när jag pausade arbetet för ett år sedan snart. Jag uppfattade felaktigt att jag behövde vänta till nästa kursomgång och omregistrera mig. 
-I vanlig ordning blev min idé som verkade ganska enkel att utföra, ganska omfattande och jag valde bort verktyg som maven/gradle samt att använda ny teknik för mig, JavaFX. JavaFX och dess testning var, efter en hel del "trial & error" helt okej att använda och den automatiska GUI-testningen var häftig. JavaFX står fortfarande ivägen och orsakar en del problem, som är dokumenterat. 
+Vad gäller L3 så var uppgiften 90% klar och fullt fungerande lokalt när jag pausade arbetet för ett år sedan. Jag uppfattade felaktigt att jag behövde vänta till nästa kursomgång och omregistrera mig. 
+I vanlig ordning blev min idé som verkade ganska enkel att utföra, ganska omfattande och jag valde bort verktyg som maven/gradle samt att använda ny teknik för mig, JavaFX. JavaFX och dess testning var, efter en hel del "trial & error" helt okej att använda och den automatiska GUI-testningen var häftig. JavaFX står fortfarande ivägen och orsakar en del problem, som är dokumenterat.
+
+Att refaktorera modulen var den större delen av kvarvarande arbete, det var inte svårt att hitta "fel" som behövde refaktoreras och jag har gjort mitt bästa att följa Clean Code. Jag tror att det som framför allt kan förbättras är relaterat till Formating-kapitlet i boken, det kan visa sig utmanande när man har en klass som StringManipulator.java som har flertalet olika metoder för att uppfylla sitt syfte.
 
